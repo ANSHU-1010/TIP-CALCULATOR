@@ -1,41 +1,40 @@
-window.onload = () =>
-	//the function called when Calculate button is clicked.
-	{
-		/*calling a function calculateTip
-		which will calculate the tip for the bill.*/
-		document.querySelector('#calculate').onclick = calculateTip;
-	}
-
+//Calculate Tip
 function calculateTip() {
-	
-	let amount = document.querySelector('#amount').value;
-	let persons = document.querySelector('#persons').value;
-	let service = document.querySelector('#services').value;
-
-	console.log(service);
-	/*if statement will work when user presses
-		calculate without entering values. */
-	//so will display an alert box and return.
-	if (amount === '' && service === 'Select') {
-		alert("Please enter valid values");
-		return;
+	var billAmt = document.getElementById("billamt").value;
+	var serviceQual = document.getElementById("serviceQual").value;
+	var numOfPeople = document.getElementById("peopleamt").value;
+  
+	//validate input
+	if (billAmt === "" || serviceQual == 0) {
+	  alert("Please enter values");
+	  return;
 	}
-
-	//now we are checking number of persons
-	if (persons === '1')
-	//if there is only one person then we need not to display each.
-		document.querySelector('#each').style.display = 'none';
-	else
-	//if there are more than one person we will display each.
-		document.querySelector('#each').style.display = 'block';
-
-	/*calculating the tip by multiplying total-bill and type of
-	service; then dividing it by number of persons.*/
-	//fixing the total amount upto 2 digits of decimal
-	let total = (amount * service) / persons;
+	//Check to see if this input is empty or less than or equal to 1
+	if (numOfPeople === "" || numOfPeople <= 1) {
+	  numOfPeople = 1;
+	  document.getElementById("each").style.display = "none";
+	} else {
+	  document.getElementById("each").style.display = "block";
+	}
+  
+	//Calculate tip
+	var total = (billAmt * serviceQual) / numOfPeople;
+	//round to two decimal places
+	total = Math.round(total * 100) / 100;
+	//next line allows us to always have two digits after decimal point
 	total = total.toFixed(2);
-
-	//finally displaying the tip value
-	document.querySelector('.tip').style.display = 'block';
-	document.querySelector('#total').innerHTML = total;
-}
+	//Display the tip
+	document.getElementById("totalTip").style.display = "block";
+	document.getElementById("tip").innerHTML = total;
+  
+  }
+  
+  //Hide the tip amount on load
+  document.getElementById("totalTip").style.display = "none";
+  document.getElementById("each").style.display = "none";
+  
+  //click to call function
+  document.getElementById("calculate").onclick = function() {
+	calculateTip();
+  
+  };
